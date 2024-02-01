@@ -5,70 +5,66 @@ using UnityEngine;
 
 public class BombGuy : MonoBehaviour
 {
-    enum State { Idle, Run };//애니메이션 상태
+    enum State { Idle, Run, Jump, Hit, Dead };//애니메이션 상태
+    private State state;
     Animator anim;
+    Rigidbody2D rb;
     //private Coroutine coroutine;//코루틴을 변수로 선언하는 이유 - StopCoroutine를 쓰기 위해서
-    [SerializeField] private float moveSpeed = 1.5f;
-    [SerializeField] private GameObject flag;
-    private int dir = 0;
+    [SerializeField] private float moveForce = 3f;
+    private int dir = 0;//방향값
+    private bool isJumping;//점프중인지 판단
     private void Awake()
     {
-        anim = GetComponent<Animator>();//Animator컴포넌트를 가져오는 방법
-        StartCoroutine(CoMove(() => { Debug.Log("코루틴 종료"); })); //StopCoroutine을 쓰기 전 어떤 코루틴을 멈출 것인지 지정한다.
-        //coroutine = StartCoroutine(CoMove());
+        anim = GetComponent<Animator>();//컴포넌트 가져오기
+        rb = GetComponent<Rigidbody2D>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
-   /*     if (Input.GetMouseButtonDown(0))//마우스를 클릭하면
-        {
-            StopCoroutine(coroutine);//코루틴 정지. 코루틴 인스턴스를 매개변수로 받는다
-        }*/
+        if (isJumping) return;
+
         if (Input.GetKey(KeyCode.RightArrow))
         {
             dir = 1;
-            //transform.position += new Vector3(dir * moveSpeed, 0, 0) * Time.deltaTime;//이동
+            rb.AddForce(transform.right * moveForce);//이동
             transform.localScale = new Vector3(dir, 1, 1);//캐릭터 방향 바꾸기
             AnimState(State.Run);//애니메이션 상태 변환
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             dir = -1;
-            //transform.position += new Vector3(dir * moveSpeed, 0, 0) * Time.deltaTime;
+            rb.AddForce(-transform.right * moveForce);//이동
             transform.localScale = new Vector3(dir, 1, 1);
             AnimState(State.Run);
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            isJumping = true;
+            rb.AddForce(transform.up * 5, ForceMode2D.Impulse);//점프
+            AnimState(State.Jump);
         }
         else
         {
             dir = 0;
             AnimState(State.Idle);
         }
+        //화면 이탈 방지
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x,
+            -2.3f, 2.3f), transform.position.y);
+        //속도제한
+        if (Mathf.Abs(rb.velocity.x) > 0.1f) return;
+
+        //이동속도에 따라서 애니메이션 반영
+        //anim.speed = Mathf.Abs(rb.velocity.x * 2);
+
+
+        //Debug.Log(rb.velocity.x);
     }
     private void AnimState(State state)
     {
         anim.SetInteger("State", (int)state);
     }
-    IEnumerator CoMove(Action callback)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        while (true)
-        {
-            transform.Translate(dir * moveSpeed * Time.deltaTime, 0, 0);
-            float length = flag.transform.position.x - transform.position.x;//깃발과의 거리
-            if (length < 0.5f)//거리가 0.5이하면
-                break;//루프를 벗어난다
-            yield return null;//다음 '프레임'으로 넘어간다
-            callback();
-        }
+        isJumping = false;//점프해제
     }
-    //IEnumerator CoMove()
-    //{
-    //    while (true)
-    //    {
-    //        Debug.Log(this.dir);
-    //        transform.Translate(this.dir * this.moveSpeed * Time.deltaTime, 0, 0);
-    //        float length = flag.transform.position.x - transform.position.x;//깃발과의 거리
-    //        if (length < 0.5f)//거리가 0.5이하면
-    //            break;//루프를 벗어난다
-    //        yield return null;//다음 '프레임'으로 넘어간다
-    //    }
-    //}
 }
