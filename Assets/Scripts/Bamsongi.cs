@@ -14,6 +14,7 @@ public class Bamsongi : MonoBehaviour
     private void FixedUpdate()
     {
         Shoot();
+        Destroy(gameObject, 2);
     }
     private void OnCollisionEnter(Collision collision)//과녁과 충돌하면
     {
@@ -24,6 +25,9 @@ public class Bamsongi : MonoBehaviour
     }
     public void Shoot()
     {
-        rb.AddForce(new Vector3(0, 20, 200));
+        //화면터치방향
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 100);
+        rb.AddForce(ray.direction.normalized * 3000);
     }
 }
