@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Bamsongi.unity
+    guid: 18fd5ab942a597d47b0b42c4ffe47c09
   m_configObjects: {}

@@ -36,16 +36,17 @@ public class BombGuy : MonoBehaviour
             transform.localScale = new Vector3(dir, 1, 1);
             AnimState(State.Run);
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            isJumping = true;
-            rb.AddForce(transform.up * 5, ForceMode2D.Impulse);//점프
-            AnimState(State.Jump);
-        }
         else
         {
             dir = 0;
             AnimState(State.Idle);
+        }
+        
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            isJumping = true;
+            rb.AddForce(transform.up * 5, ForceMode2D.Impulse);//점프
+            AnimState(State.Jump);
         }
         //화면 이탈 방지
         transform.position = new Vector2(Mathf.Clamp(transform.position.x,
@@ -55,7 +56,6 @@ public class BombGuy : MonoBehaviour
 
         //이동속도에 따라서 애니메이션 반영
         //anim.speed = Mathf.Abs(rb.velocity.x * 2);
-
 
         //Debug.Log(rb.velocity.x);
     }
