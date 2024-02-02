@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BulletGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerBullet;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(player, transform.position, Quaternion.identity);//持失 板
+            Instantiate(playerBullet, transform.position, Quaternion.identity);//持失
         }
     }
 }
