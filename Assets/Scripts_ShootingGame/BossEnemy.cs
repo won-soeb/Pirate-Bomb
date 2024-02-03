@@ -3,41 +3,16 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class BossEnemy : MonoBehaviour
+public class BossEnemy : EnemyGroup
 {
-    Animator anim;
-    [SerializeField] private int bossHP;
-    [SerializeField] private GameObject explosion;
-    private Bullet playerBullet;
-    private GameManager gameManager;
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
-    private void Start()
-    {
-        playerBullet = FindAnyObjectByType<Bullet>();
-        gameManager = FindAnyObjectByType<GameManager>();
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(playerBullet);
         StartCoroutine(Damage());
-        if (bossHP <= 0)
+        if (HP <= 0)
         {
-            BossDead();
+            EnemyDead();
         }
     }
-    public void BossDead()
-    {
-        Instantiate(explosion, transform.position, Quaternion.identity);//파티클
-        Destroy(gameObject);//파괴
-    }
-    IEnumerator Damage()//데미지 처리
-    {
-        bossHP -= gameManager.playerDamage;//체력깎기
-        anim.SetInteger("Hit", 1);
-        yield return new WaitForSeconds(0.1f);
-        anim.SetInteger("Hit", 0);//애니메이션 적용
-    }
+    //보스의 공격 패턴 추가
 }

@@ -8,7 +8,11 @@ public class Player : MonoBehaviour
     private int v;//상하 키
     [SerializeField] private float speed = 0.05f;
     [SerializeField] private GameObject explosion;//폭발 효과 프리팹
+    [SerializeField] private GameObject resultText;//게임오버창
+    [SerializeField] private GameObject boomAttack;//폭탄공격
     Animator anim;
+    Coroutine coroutine = null;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -34,6 +38,26 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
             Instantiate(explosion, transform.position, Quaternion.identity);
+            resultText.SetActive(true);
         }
+    }
+    public void PowerUp()//일반공격력 증가
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        coroutine = StartCoroutine(CoPowerUp());
+    }
+    IEnumerator CoPowerUp()
+    {
+        GameManager.playerDamage = 5;
+        yield return new WaitForSeconds(5f);
+        GameManager.playerDamage = 1;
+        //Debug.Log("코루틴 종료");
+    }
+    public void BoomAttack()//폭탄공격
+    {
+        Instantiate(boomAttack, transform.position, Quaternion.identity);
     }
 }
