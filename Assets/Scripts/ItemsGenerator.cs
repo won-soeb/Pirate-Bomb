@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemsGenerator : MonoBehaviour
 {
@@ -10,16 +9,11 @@ public class ItemsGenerator : MonoBehaviour
     private int genPointZ;
     private float timer = 0;
     [SerializeField] private float genRate = 0.5f;
-    [SerializeField] private float timeLimit = 60f;
-    [SerializeField] private Text timeText;
-        float timeCount = 0;
     void Update()
     {
         timer += Time.deltaTime;
-        Debug.Log(timer);
+        //Debug.Log(timer);
         //timeCount = timer;
-        timeLimit -= Time.deltaTime;
-        timeText.text = string.Format("남은 시간 : {0:0.00}", timeLimit);
         if (timer > genRate)
         {
             timer = 0;

@@ -9,12 +9,15 @@ public class BasketController : MonoBehaviour
     [SerializeField] private AudioClip soundBomb;
     [SerializeField] private Text scoreText;
     private AudioSource audio;
-    public static int score = 0;
+    private CatchManager catchManager;
     private void Awake()
     {
         audio = GetComponent<AudioSource>();
     }
-
+    private void Start()
+    {
+        catchManager = FindAnyObjectByType<CatchManager>();
+    }
     //화면터치 시 터치한 위치로 이동
     private void Update()
     {
@@ -36,17 +39,15 @@ public class BasketController : MonoBehaviour
         Debug.Log(other.tag + "와(과) 닿음");
         if (other.tag == "Apple")
         {
-            //Debug.Log("득점");
-            score += 50;//점수추가
-            scoreText.text = score.ToString();//UI에 반영
+            //Debug.Log("득점");            
+            scoreText.text = catchManager.PlusScore().ToString();//UI에 반영
             audio.PlayOneShot(soundApple);//사운드 재생
             Destroy(other.gameObject);//파괴
         }
         else if (other.tag == "Bomb")
         {
             //Debug.Log("감점");
-            score = Mathf.CeilToInt(score / 2);//반으로 감점
-            scoreText.text = score.ToString();
+            scoreText.text = catchManager.MinusScore().ToString();
             audio.PlayOneShot(soundBomb);
             Destroy(other.gameObject);
         }
