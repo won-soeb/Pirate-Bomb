@@ -10,7 +10,7 @@ public class TestMain : MonoBehaviour
         {
             //Debug.Log(Input.mousePosition);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction, Color.yellow,100);
+            Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 100);
         }
     }
 }

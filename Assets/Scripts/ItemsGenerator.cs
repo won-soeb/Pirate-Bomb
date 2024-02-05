@@ -8,12 +8,11 @@ public class ItemsGenerator : MonoBehaviour
     private int genPointX;
     private int genPointZ;
     private float timer = 0;
-    [SerializeField] private float genRate = 0.5f;
+    [SerializeField] private float genRate = 0.5f;//아이템 생성 주기
     void Update()
     {
         timer += Time.deltaTime;
         //Debug.Log(timer);
-        //timeCount = timer;
         if (timer > genRate)
         {
             timer = 0;

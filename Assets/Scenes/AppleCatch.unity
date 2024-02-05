@@ -901,14 +901,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1006524454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3495b4905323a644fa25479ad8ddb52d, type: 3}
+  m_Script: {fileID: 11500000, guid: 274065b892d2c1b4e8443391cc33ae44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 1125392079}
   resultText: {fileID: 1136917274}
-  restartBtn: {fileID: 1508986441}
-  selectBtn: {fileID: 1091669930}
-  timeLimit: 5
+  timeLimit: 30
 --- !u!4 &1006524456
 Transform:
   m_ObjectHideFlags: 0
@@ -1232,7 +1230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1136917272
 RectTransform:
   m_ObjectHideFlags: 0
