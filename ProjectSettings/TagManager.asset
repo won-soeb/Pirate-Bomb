@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - Enemy
   - Boom
+  - Apple
+  - Bomb
   layers:
   - Default
   - TransparentFX
